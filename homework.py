@@ -1,10 +1,10 @@
 #lab1
  # Example file showing a basic pygame "game loop"
 import pygame
-from pygame.draw import circle, line , rect
+from pygame.draw import circle, line , rect , polygon
 from pygame.math import Vector2
-width = 1280
-height = 720
+width = 1920        
+height = 1080
 
 
 # pygame setup
@@ -15,11 +15,22 @@ running = True
 
 radius = 100
 color_red= (255,50,50)
-position = Vector2(width/2,height/2)
-vel = Vector2(0,0)
+color_cyan = (0,255,255)
+color_purple = (128, 0, 128)
+color_green  = (0, 255, 0)
+
+six_six = Vector2 (600,600)
+sevenfive_six = Vector2 (750,600)
+sixfive_seven = Vector2 (650,700)
+nine_six = Vector2 (900,600)
+nine_nine = Vector2 (900,900)
+six_nine = Vector2 (600,900)
+cyan_vel = Vector2(0,0)
+purple_vel = Vector2(0,0)
+green_vel = Vector2(0,0)
 acc = Vector2(1,1)
-acc.x =1
-acc.y =1
+
+
 
 while running:
     # poll for events
@@ -29,26 +40,27 @@ while running:
             running = False
 
     # fill the screen with a color to wipe away anything from last frame
-    screen.fill("grey")
+    screen.fill("black")
     # RENDER YOUR GAME HERE
 
-    # vel.x = vel.x + acc.x
-    # vel.y = vel.y + acc.y
-    vel = vel+acc
-    # position.x = position.x + vel.x
-    # position.y = position.y + vel.y
-    position = position+vel
-    circle(screen, color_red , position , radius)
+    #transform
+    #cyan Poly movement
+    cyan_vel = cyan_vel + (acc[0], acc[1]-2)
+    cyan_pos = cyan_vel
 
-    acc.x = 0 
-    acc.y = 0
-    # to stop acc from increasing. Learn more
+    #purple poly movement
+    purple_vel = purple_vel + (acc[0]-2,acc[1]-2)
+    purple_pos = purple_vel
 
-    # line(screen , (50,50,0), (300,600) , (1000, 600))
-    # line(screen , (50,0,0), (300,600) , (500, 300))
-    # line(screen , (50,0,0), (1000,600) , (500, 300))
-    # pygame.draw.rect(screen, (0,0,0), (width/2,height/2,100,60), width=0, border_radius=0, border_top_left_radius=-1, border_top_right_radius=-1, border_bottom_left_radius=-1, border_bottom_right_radius=-1)
+    #green poly movement
+    green_vel = green_vel +(acc[0]+2,acc[1]-1)
+    green_pos = green_vel
+
+
     
+    polygon(screen, color_cyan, [(six_six + cyan_pos),(sevenfive_six+ cyan_pos),(sixfive_seven+cyan_pos)],0)    
+    polygon(screen, color_purple, [(sixfive_seven + purple_pos), (nine_six + purple_pos), (nine_nine + purple_pos), (sixfive_seven + purple_pos)],0)
+    polygon(screen, color_green, [(six_six + green_pos), (nine_nine + green_pos), (six_nine+green_pos)],0)
 
     # flip() the display to put your work on screen
     pygame.display.flip()
